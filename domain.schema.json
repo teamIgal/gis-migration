@@ -1,0 +1,58 @@
+﻿{
+    "$id": "https://github.com/teamIgal/migration-schemas/domain.schema.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$ref": "#definitions/domain",
+    "definitions": {
+        "domainValue": {
+            "type": "object",
+            "properties": {
+                "code": {},
+                "description": { "type": "string" }
+            },
+            "required": ["code", "description"]
+        },
+        "domain": {
+            "type": "object",
+            "properties": {
+                "name": { "type": "string" },
+                "description": { "type": "string" },
+
+                "domainType": {
+                    "type": "string",
+                    "enum": ["range", "codedValues"]
+                },
+                "fieldType": {
+                    "type": "string",
+                    "enum": ["shortInteger", "longInterger", "float", "double", "text", "date"]
+                },
+                "splitPolicy": {
+                    "type": "string",
+                    "enum": ["defaultValue", "duplicate", "geometryRange"],
+                    "default": "defaultValue"
+                },
+                "mergePolicy": {
+                    "type": "string",
+                    "enum": ["defaultValue", "sumValues", "weightedAverage"],
+                    "default": "defaultValue"
+                },
+                
+                "minimumValue": { "type": "number" },
+                "maximumValue": { "type": "number" },
+                "values": { 
+                    "type": "array",
+                    "items": { "$ref": "#/definitions/domainValue" }
+                }
+            },
+            "required": ["name", "description", "fieldType", "splitPolicy", "mergePolicy"],
+            "additionalProperties": false,
+            
+            "if": { 
+                "properties": {
+                    "domainType": {"const": "range"}
+                }
+            },
+            "then": { "required": ["minimumValue", "maximumValue"] },
+            "else": { "required": ["values"] }
+        }
+    }
+}
