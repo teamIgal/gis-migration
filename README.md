@@ -1,15 +1,37 @@
 # Migration Schemas
 > JSON Schema Definitions for ArcDesktop Migration Project
 
-##  Contained Schemas
-### Operations
-- exported-domains.schema.json
-- exported-layer.schema.json
-- exported-table.schema.json
-- transformed-domain.schema.json
-- transformed-layer.schema.json
-- transformed-table.schema.json
+## Installing
+* Make sure you're using Python 3.7 or newer.  
+* Ensure you have [pipenv](https://pipenv.kennethreitz.org/en/latest/) installed.
+* Run the following command to install project dependencies:
+```shell
+$ pipenv install
+```
 
-## Validating Schemas
-Run following command:  
-`npx ajv compile -s <operation_schema_file> [-r <dep_schema_file>]*`
+## Using Schemas
+### Compile Schema
+__Run the following command:__
+```shell
+$ jsonschema <path_to_schema_file>
+```
+If schema is compiled successfuly, expect no output.
+Otherwise, an error will be printed to console.
+
+__Example:__
+```shell
+$ jsonschema ./schemas/domain.schema.json
+```
+
+
+### Validate JSON Against Schema
+__Run the following command:__
+```shell
+$ jsonschema -i <path_to_schema_file> -i <path_to_json_file>
+```
+__Example:__
+```shell
+$ jsonschema -i ./schemas/domain.schema.json -i my-domain.json
+```
+If JSON adheres to schema, expect no output.
+Otherwise, an error will be printed to console.

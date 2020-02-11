@@ -1,7 +1,7 @@
-﻿{
+{
     "$id": "https://github.com/teamIgal/migration-schemas/domain.schema.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "$ref": "#definitions/domain",
+    "$ref": "#/definitions/domain",
     "definitions": {
         "domainValue": {
             "type": "object",
