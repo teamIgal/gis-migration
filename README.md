@@ -27,11 +27,11 @@ $ jsonschema ./schemas/domain.schema.json
 ### Validate JSON Against Schema
 __Run the following command:__
 ```shell
-$ jsonschema -i <path_to_schema_file> -i <path_to_json_file>
+$ jsonschema -i <path_to_json_file> <path_to_schema_file>
 ```
 __Example:__
 ```shell
-$ jsonschema -i ./schemas/domain.schema.json -i my-domain.json
+$ jsonschema -i my-domain.json ./schemas/domain.schema.json
 ```
 If JSON adheres to schema, expect no output.
 Otherwise, an error will be printed to console.
