@@ -1,0 +1,136 @@
+{
+    "$id": "https://github.com/teamIgal/gis-migration/layer.schema.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$ref": "#/definitions/layer",
+    "definitions": {
+        "field": {
+            "type": "object",
+            "properties": {
+                "name": { "type": "string" },
+                "alias": { "type": "string" },
+                "populationCount": { "type": "number", "default": 0 },
+
+                "allowNullValues": { "type": "boolean", "default": true },
+                "defaultValue": {},         
+                "fieldType": {
+                    "type": "string",
+                    "enum": ["shortInteger", "longInterger", "float", "double", "text", "date"]
+                },
+
+                "domain": { "type": "string" },
+                "length": { "type": "number", "minimum": 0, "default": 50 }
+            },
+            "required": ["name", "fieldType", "populationCount"],
+            "additionalProperties": false
+        },
+
+        "tolerance": {
+            "type": "object",
+            "properties": {
+                "xy": { "type": "number" },
+                "z": { "type": "number" },
+                "m": { "type": "number" }
+            },
+            "required": ["xy"]
+        },
+
+        "extent": {
+            "type": "object",
+            "properties": {
+                "minX": { "type": "number" },
+                "maxX": { "type": "number" },
+                "minY": { "type": "number" },
+                "maxY": { "type": "number" },
+                "minZ": { "type": "number" },
+                "maxZ": { "type": "number" },
+                "minM": { "type": "number" },
+                "maxM": { "type": "number" }
+            }
+        },
+
+        "subtypes": {
+            "type": "object",
+            "properties": {
+                "subtypeField": { "type": "string" },
+                "defaultSubtype": { "type": "string" },
+                "_subtypes": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "code": { "type": "number" },
+                            "description": { "type": "string" }
+                        }
+                    }
+                },
+                "subtypeFieldMappings": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "fieldName": { "type": "string" },
+                            "defaultValue": {},
+                            "domain": { "type": "string" }
+                        },
+                        "required": ["fieldName", "domain"]
+                    }
+                }
+            }   
+        },
+
+        "index": {
+            "type": "object",
+            "properties": {
+                "name": { "type": "string" },
+                "unique": { "type": "boolean", "default": false },
+                "ascending": { "type": "boolean", "default": false },
+                "fields": {
+                    "type": "array",
+                    "items": { "type": "string" },
+                    "minItems": 1
+                }
+            },
+            "required": ["name", "fields"]
+        },
+
+        "layer": {
+            "type": "object",
+            "properties": {
+                "name": { "type": "string" },
+                "alias": { "type": "string" },
+                "arena": { "type": "string" },
+
+                "featureType": {
+                    "type": "string",
+                    "enum": ["Simple", "Composite"]
+                },
+                "geometryType": {
+                    "type": "string",
+                    "enum": ["Polygon", "Line", "Point", "MultiPoint", "MultiPatch", "Dimension", "Annotation"]
+                },
+
+                "hasZ": { "type": "boolean", "default": "false" },
+                "hasM": { "type": "boolean", "default": "false"  },
+                
+                "featureExtent": { "$ref": "#/definitions/extent" },
+                
+                "csWKID": { "type": "number" },
+                "tolerance": { "$ref": "#/definitions/tolerance" },
+                "resolution": { "$ref": "#/definitions/tolerance" },
+                
+                "fields": {
+                    "type": "array",
+                    "items": { "$ref": "#/definitions/field" }
+                },
+
+                "indecies": {
+                    "type": "array",
+                    "items": { "$ref": "#/definitions/index" },
+                    "minItems": 1
+                }
+            },
+            "required": ["name", "alias", "arena", "datum", "extent","geometryType", "fields"],
+            "additionalProperties": false
+        }
+    }
+}
