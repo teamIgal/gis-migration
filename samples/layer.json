@@ -1,3 +1,26 @@
 {
-    "$schema": "../schemas/layer.schema.json"
+    "name": "MY_LAYER",
+    "alias": "My Layer",
+    "arena": "MY_SDE",
+    "csWKID": 4326,
+    "hasZ": false,
+    "hasM": false,
+    "featureType": "simple",
+    "geometryType": "point",
+    "featureExtent": {
+        "minX": -1000,
+        "maxX": 1000,
+        "minY": -1000,
+        "maxY": 1000
+    },
+    "tolerance": {
+        "xy": 0.001
+    },
+    "resolution": {
+        "xy": 0.0001
+    },
+    "fields": [
+        { "name": "OBJECTID", "fieldType": "shortInteger", "allowNullValues": false, "populationCount": 500 },
+        { "name": "NAME", "alias": "name", "fieldType": "text", "length": 140, "populationCount": 500 }
+    ]    
 }

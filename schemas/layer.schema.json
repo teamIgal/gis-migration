@@ -138,7 +138,7 @@
 
                 "featureType": {
                     "type": "string",
-                    "enum": ["Simple", "Composite"]
+                    "enum": ["simple", "composite"]
                 },
                 "geometryType": {
                     "type": "string",
@@ -172,7 +172,7 @@
                     "items": { "$ref": "#/definitions/relation" }
                 }
             },
-            "required": ["name", "alias", "arena", "datum", "extent","geometryType", "fields"],
+            "required": ["name", "alias", "arena", "csWKID", "featureExtent", "geometryType", "fields"],
             "additionalProperties": false
         }
     }

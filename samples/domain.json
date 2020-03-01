@@ -1,3 +1,13 @@
 {
-    "$schema": "../schemas/domain.schema.json"    
+    "name": "my_domain",
+    "description": "A domain example",
+    "fieldType": "shortInteger",
+    "domainType": "codedValues",
+    "splitPolicy": "defaultValue",
+    "mergePolicy": "defaultValue",
+    "values": [
+        { "code": 0, "description": "first option" },
+        { "code": 1, "description": "second option" },
+        { "code": 2, "description": "second option" }
+    ]
 }
