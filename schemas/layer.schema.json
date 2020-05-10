@@ -20,8 +20,7 @@
                 "domain": { "type": "string" },
                 "length": { "type": "number", "minimum": 0, "default": 50 }
             },
-            "required": ["name", "fieldType", "populationCount"],
-            "additionalProperties": false
+            "required": ["name", "fieldType", "populationCount"]            
         },
 
         "tolerance": {
@@ -31,8 +30,7 @@
                 "z": { "type": "number" },
                 "m": { "type": "number" }
             },
-            "required": ["xy"],
-            "additionalProperties": false
+            "required": ["xy"]            
         },
 
         "extent": {
@@ -47,8 +45,7 @@
                 "minM": { "type": "number" },
                 "maxM": { "type": "number" }
             },
-            "required": ["minX", "maxX", "minY", "maxY"],
-            "additionalProperties": false
+            "required": ["minX", "maxX", "minY", "maxY"]            
         },
 
         "subtypes": {
@@ -64,8 +61,7 @@
                             "code": { "type": "number" },
                             "description": { "type": "string" }
                         },
-                        "required": ["code", "description"],
-                        "additionalProperties": false
+                        "required": ["code", "description"]                        
                     }
                 },
                 "subtypeFieldMappings": {
@@ -77,8 +73,7 @@
                             "defaultValue": {},
                             "domain": { "type": "string" }
                         },
-                        "required": ["fieldName", "domain"],
-                        "additionalProperties": false
+                        "required": ["fieldName", "domain"]                        
                     }
                 }
             }   
@@ -96,8 +91,7 @@
                     "minItems": 1
                 }
             },
-            "required": ["name", "fields"],
-            "additionalProperties": false
+            "required": ["name", "fields"]            
         },
 
         "relation": {
@@ -125,8 +119,7 @@
                 "forwardPathLabel": { "type": "string" },
                 "backwardPathLabel": { "type": "string" }
             },
-            "required": ["relatedTo", "role", "type", "cardinality", "notification", "originPrimaryKey", "destinationPrimaryKey", "forwardPathLabel", "backwardPathLabel"],
-            "additionalProperties": false
+            "required": ["relatedTo", "role", "type", "cardinality", "notification", "originPrimaryKey", "destinationPrimaryKey", "forwardPathLabel", "backwardPathLabel"]            
         },
 
         "layer": {
@@ -172,8 +165,7 @@
                     "items": { "$ref": "#/definitions/relation" }
                 }
             },
-            "required": ["name", "alias", "arena", "csWKID", "featureExtent", "geometryType", "fields"],
-            "additionalProperties": false
+            "required": ["name", "alias", "arena", "csWKID", "featureExtent", "geometryType", "fields"]            
         }
     }
 }

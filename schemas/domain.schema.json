@@ -9,8 +9,7 @@
                 "code": {},
                 "description": { "type": "string" }
             },
-            "required": ["code", "description"],
-            "additionalProperties": false
+            "required": ["code", "description"]            
         },
         "domain": {
             "type": "object",
@@ -46,7 +45,6 @@
             },
             
             "required": ["name", "description", "domainType", "fieldType", "splitPolicy", "mergePolicy"],
-            "additionalProperties": false,
             
             "if": { 
                 "properties": {
