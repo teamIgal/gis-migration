@@ -1,5 +1,5 @@
 {
-    "$id": "https://github.com/teamIgal/gis-migration/schemas/layer.schema.json",
+    "$id": "layer.schema.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$ref": "#/definitions/layer",
     "definitions": {
