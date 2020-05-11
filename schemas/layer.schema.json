@@ -128,6 +128,7 @@
                 "name": { "type": "string" },
                 "alias": { "type": "string" },
                 "arena": { "type": "string" },
+                
 
                 "featureType": {
                     "type": "string",

@@ -1,0 +1,7 @@
+{
+    "$schema": "../schemas/layer-project.schema.json",
+    "projectName": "myproj",
+    "layerName": "mylayer",
+    "layerSelectorField": "OID",
+    "features": [1, 3, 15]
+}

@@ -29,11 +29,8 @@
                 },
                 "permissions": {
                     "type": "array",
-                    "items": {"type": "string"}
-                },
-                "layers": {
-                    "type": "array",
-                    "items": {"$ref": "layer.schema.json#/definitions/layer/properties/name"}
+                    "items": {"type": "string"},
+                    "$comment": "An array of AD users/groups"
                 }
             },
             "required": [

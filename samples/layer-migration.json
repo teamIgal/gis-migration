@@ -1,4 +1,5 @@
 {
+    "$schema": "../schemas/layer-migration.schema.json",
     "name": "MY_NEW_LAYER",
     "sourceName": "MY_LAYER",
     "alias": "My Layer",

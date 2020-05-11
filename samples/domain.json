@@ -1,4 +1,5 @@
 {
+    "$schema": "../schemas/domain.schema.json",
     "name": "my_domain",
     "description": "A domain example",
     "fieldType": "shortInteger",

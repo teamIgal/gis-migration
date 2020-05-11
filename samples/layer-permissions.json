@@ -1,0 +1,18 @@
+{
+    "$schema": "../schemas/layer-permissions.schema.json",
+    "layerName": "mylayer",
+    "permissions": [
+        {
+            "userOrGroup": "joe",
+            "read": true,
+            "write": false,
+            "delete": false
+        }, 
+        {
+            "userOrGroup": "admins",
+            "read": true,
+            "write": true,
+            "delete": true
+        }
+    ]
+}

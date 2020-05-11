@@ -1,0 +1,30 @@
+{
+    "$id": "layer-permissions.schema.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$ref": "#/definitions/layerPermissions",
+    "definitions": {
+        "permission": {
+            "type": "object",
+            "properties": {
+                "userOrGroup": {
+                    "type": "string",
+                    "$comment": "An id of AD user/group"
+                },
+                "read": { "type": "boolean", "default": true },
+                "write": { "type": "boolean", "default": false },
+                "delete": { "type": "boolean", "default": false }
+            }
+        },
+        "layerPermissions": {
+            "type": "object",
+            "properties": {
+                "layerName": {"$ref": "layer.schema.json#/definitions/layer/properties/name"},
+                "permissions": {
+                    "type": "array",
+                    "items": {"$ref": "#/definitions/permission"}
+                }
+            },
+            "required": []
+        }
+    }
+}

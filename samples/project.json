@@ -12,6 +12,5 @@
     "date": "05/11/2020",
     "expirationDate": "05/11/2021",
     "owner": "me",
-    "layers": ["layer1", "layer2"],
     "permissions": ["mary", "joe"]
 }
