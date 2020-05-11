@@ -2,6 +2,7 @@
     "$id": "layer-project.schema.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$ref": "#/definitions/layerProject",
+    "$comment": "Represents the relation between a layer & a project (m-m)",
     "definitions": {
         "layerProject": {
             "type": "object",

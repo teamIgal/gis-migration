@@ -2,11 +2,13 @@
     "$id": "layer-migration.schema.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$ref": "#/definitions/layer-migration",
+    "$comment": "Represents a layer migration path",
     "definitions": {
         "layer-migration": {
             "allOf": [
                 {"$ref": "layer.schema.json#/definitions/layer"},
                 {
+                    "$comment": "sourceName fields are used to map the new layer definition to the old one.",
                     "properties": {
                         "sourceName": {"$ref": "layer.schema.json#/definitions/layer/properties/name"},
                         "fields": {

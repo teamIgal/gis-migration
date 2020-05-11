@@ -2,6 +2,7 @@
     "$id": "project.schema.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$ref": "#/definitions/project",
+    "$comment": "Represents a project",
     "definitions": {
         "project": {
             "type": "object",
