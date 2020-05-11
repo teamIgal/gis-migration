@@ -1,0 +1,46 @@
+{
+    "$id": "project.schema.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$ref": "#/definitions/project",
+    "definitions": {
+        "project": {
+            "type": "object",
+            "properties": {
+                "name": {"type": "string"},
+                "name8": {"type": "string"},
+                "nameA": {"type": "string"},
+                "nameI": {"type": "string"},
+                "type": {"type": "string"},
+                "area": {"type": "string"},
+                "executor": {"type": "string"},
+                "date": {
+                    "type": "string",
+                    "$comment": "ISO Date String"
+                },
+                "expirationDate": {
+                    "type": "string",
+                    "$comment": "ISO date string"
+                },
+                "description": {"type": "string"},
+                "owner": {"type": "string"},
+                "color": {
+                    "type": "string", 
+                    "$comment": "color HEX value"
+                },
+                "permissions": {
+                    "type": "array",
+                    "items": {"type": "string"}
+                },
+                "layers": {
+                    "type": "array",
+                    "items": {"$ref": "layer.schema.json#/definitions/layer/properties/name"}
+                }
+            },
+            "required": [
+                "name", "name8", "nameA", "nameI", "type", "area",
+                "executor", "date", "expirationDate", "description",
+                "owner", "color", "permissions"
+            ]
+        }
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "$schema": "../schemas/project.schema.json",
+    "area": "A1",
+    "type": "",
+    "executor": "you",
+    "name": "myproject",
+    "name8": "myproject8",
+    "nameA": "myprojectA",
+    "nameI": "myprojectI",    
+    "description": "this is my project",
+    "color": "#AABBCCFF",
+    "date": "05/11/2020",
+    "expirationDate": "05/11/2021",
+    "owner": "me",
+    "layers": ["layer1", "layer2"],
+    "permissions": ["mary", "joe"]
+}
