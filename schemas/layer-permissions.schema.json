@@ -1,7 +1,7 @@
 {
     "$id": "layer-permissions.schema.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "$ref": "#/definitions/layerPermissions",
+    "$ref": "#/definitions/layer-permissions",
     "$comment": "represents permission rules on the layer",
     "definitions": {
         "permission": {
@@ -16,7 +16,7 @@
                 "delete": { "type": "boolean", "default": false }
             }
         },
-        "layerPermissions": {
+        "layer-permissions": {
             "type": "object",
             "properties": {
                 "layerName": {"$ref": "layer.schema.json#/definitions/layer/properties/name"},

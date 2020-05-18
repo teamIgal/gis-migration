@@ -23,5 +23,6 @@
     "fields": [
         { "name": "OBJECTID", "fieldType": "shortInteger", "allowNullValues": false, "populationCount": 500 },
         { "name": "NAME", "alias": "name", "fieldType": "text", "length": 140, "populationCount": 500 }
-    ]
+    ],
+    "primaryField": "OBJECTID"
 }

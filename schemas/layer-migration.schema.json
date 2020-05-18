@@ -4,6 +4,14 @@
     "$ref": "#/definitions/layer-migration",
     "$comment": "Represents a layer migration path",
     "definitions": {
+        "tail-table": {
+            "type": "object",
+            "properties": {
+                "name": {"type": "string"},
+                "alias": {"type": "string"}
+            },
+            "required": ["name"]
+        },
         "layer-migration": {
             "allOf": [
                 {"$ref": "layer.schema.json#/definitions/layer"},
@@ -11,11 +19,25 @@
                     "$comment": "sourceName fields are used to map the new layer definition to the old one.",
                     "properties": {
                         "sourceName": {"$ref": "layer.schema.json#/definitions/layer/properties/name"},
+                        "migrationStatus": {
+                            "type": "string",
+                            "enum": ["wip", "defined", "completed"],
+                            "default": "wip"
+                        },
+                        "tailTables": {
+                            "type": "array",
+                            "items": {"$ref": "#/definitions/tail-table"}  
+                        },
                         "fields": {
                             "properties": {
                                 "sourceName": {"type": "string"},
-                                "targetTable": {"type": "string"}
-                            }
+                                "targetTable": {"type": "string"},
+                                "reviewed": {
+                                    "type": "boolean",
+                                    "default": false
+                                }
+                            },
+                            "required": ["reviewed"]
                         },
                         "indecies": {
                             "properties": {
@@ -23,7 +45,7 @@
                             }
                         }
                     },
-                    "required": ["sourceName"]
+                    "required": ["sourceName", "tailTables", "migrationStatus"]
                 }
             ]
         }

@@ -1,23 +1,14 @@
 {
     "$id": "layer-project.schema.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "$ref": "#/definitions/layerProject",
+    "$ref": "#/definitions/layer-project",
     "$comment": "Represents the relation between a layer & a project (m-m)",
     "definitions": {
-        "layerProject": {
+        "layer-project": {
             "type": "object",
             "properties": {
                 "projectName": {"$ref": "project.schema.json#/definitions/project/properties/name"},
-                "layerName": {"$ref": "layer.schema.json#/definitions/layer/properties/name"},
-                "layerSelectorField": {
-                    "$ref": "layer.schema.json#/definitions/field/properties/name",
-                    "default": "OBJECTID",
-                    "$comment": "The name of the field used as primary key for layer"
-                },
-                "features": {
-                    "type": "array",
-                    "items": {"type": "number"}
-                }
+                "layerName": {"$ref": "layer.schema.json#/definitions/layer/properties/name"}
             },
             "required": ["projectName", "layerName", "layerSelectorField", "features"]
         }

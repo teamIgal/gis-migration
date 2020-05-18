@@ -154,6 +154,11 @@
                     "items": { "$ref": "#/definitions/field" }
                 },
 
+                "primaryField": { 
+                    "$ref": "#/definitions/field/properties/name",
+                    "$comment": "declates the primary field (column) in the layer (table)"
+                },
+
                 "indecies": {
                     "type": "array",
                     "items": { "$ref": "#/definitions/index" },
@@ -167,7 +172,7 @@
                     "items": { "$ref": "#/definitions/relation" }
                 }
             },
-            "required": ["name", "alias", "arena", "csWKID", "featureExtent", "geometryType", "fields"]            
+            "required": ["name", "alias", "arena", "csWKID", "featureExtent", "geometryType", "fields", "primaryField"]            
         }
     }
 }

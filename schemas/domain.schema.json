@@ -3,7 +3,7 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$ref": "#/definitions/domain",
     "definitions": {
-        "domainValue": {
+        "domain-value": {
             "type": "object",
             "properties": {
                 "code": {},
@@ -40,7 +40,7 @@
                 "maximumValue": { "type": "number" },
                 "values": { 
                     "type": "array",
-                    "items": { "$ref": "#/definitions/domainValue" }
+                    "items": { "$ref": "#/definitions/domain-value" }
                 }
             },
             
