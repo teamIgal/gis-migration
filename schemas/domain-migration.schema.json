@@ -1,0 +1,18 @@
+{
+    "$id": "domain-migration.schema.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$ref": "#/definitions/domain-migration",
+    "allOf": [
+        {"$ref": "domain.schema.json#/definitions/domain"},
+        {
+            "properties": {
+                "sourceName": {"$ref": "domain.schema.json#/definitions/domain/properties/name"},
+                "migrationStatus": {
+                    "type": "string",
+                    "enum": ["wip", "defined", "completed"],
+                    "default": "wip"
+                }
+            }
+        }
+    ]
+}
