@@ -11,6 +11,14 @@
             },
             "required": ["code", "description"]            
         },
+        "refernce": {
+            "type": "object",
+            "properties": {
+                "layerName": { "$ref": "layer.schema.json#/definitions/layer/properties/name" },
+                "fieldName": { "$ref": "layer.schema.json#/definitions/field/properties/name" }
+            },
+            "required": ["layerName", "fieldName"]            
+        },
         "domain": {
             "type": "object",
             "properties": {
@@ -41,10 +49,14 @@
                 "values": { 
                     "type": "array",
                     "items": { "$ref": "#/definitions/domain-value" }
+                },
+                "references": { 
+                    "type": "array",
+                    "items": { "$ref": "#/definitions/refernce" }
                 }
             },
             
-            "required": ["name", "description", "domainType", "fieldType", "splitPolicy", "mergePolicy"],
+            "required": ["name", "description", "domainType", "fieldType", "splitPolicy", "mergePolicy","refrence"],
             
             "if": { 
                 "properties": {

@@ -10,5 +10,10 @@
         { "code": 0, "description": "first option" },
         { "code": 1, "description": "second option" },
         { "code": 2, "description": "second option" }
+    ],
+    "refrence": [
+        { "layerName": "firstName", "fieldName": "temp"},
+        { "layerName": "second", "fieldName": "temp"},
+        { "layerName": "test", "fieldName": "temp"}
     ]
 }
