@@ -24,7 +24,7 @@ def main():
     try:
         allDomains = arcpy.da.ListDomains(db)
         for domain in allDomains:
-            p1("Processing domain " + domain,"")
+            p1("Processing domain " + domain.name,"")
             if domain.domainType == 'CodedValue':
                 doCodeDomain(domain)
             else:
@@ -90,9 +90,20 @@ def domainGeneralProps(dict,domain):
 
 def writeJsonFile(dict,name):
     # there are hebrew strings
-    with codecs.open(jsonDir + "\\" + name + ".json", 'w',encoding="utf-8") as outfile:
+    goodName = fixName(name)
+    print goodName
+    with codecs.open(jsonDir + "\\" + goodName + ".json", 'w',encoding="utf-8") as outfile:
         json.dump(dict, outfile, ensure_ascii=False)
     return
+
+def fixName(name):
+    badChar = ['/',':']
+    newName = name
+    for char in badChar:
+        newName = newName.replace(char,"_")
+
+    return newName
+
 
 if __name__ == '__main__':
     main()
