@@ -7,6 +7,9 @@
 # Author:      mody
 #
 # Created:     08/03/2020
+# Updates:
+#           2/7/2020 mody - Less printing
+#                           Do not write code domain that has no values
 #-------------------------------------------------------------------------------
 
 import arcpy
@@ -16,7 +19,8 @@ db = arcpy.GetParameterAsText(0) # geodatabase for domain
 jsonDir = arcpy.GetParameterAsText(1) # dir for json files
 
 # for debug only
-if(db == ""): db = r"D:\Projects\x2470\domainTest.gdb"
+#if(db == ""): db = r"D:\Projects\x2470\domainTest.gdb"
+if(db == ""): db = r"D:\Projects\x2470\local@data1.sde"
 if(jsonDir == ""): jsonDir = r"D:\Projects\x2470\domainFiles"
 
 #===========================
@@ -24,7 +28,7 @@ def main():
     try:
         allDomains = arcpy.da.ListDomains(db)
         for domain in allDomains:
-            p1("Processing domain " + domain.name,"")
+            #p1("Processing domain " + domain.name,"")
             if domain.domainType == 'CodedValue':
                 doCodeDomain(domain)
             else:
@@ -62,6 +66,10 @@ def doCodeDomain(domain):
     # get coded values
     vals = domain.codedValues
     domainDict["values"] = []
+    # do not write if code value have no values
+    if(len(vals) == 0):
+        p1("Domain %s have no values" % (domain.name),"msg")
+        return
     for v in vals:
         domainDict["values"].append({"code": v, "description" : vals[v]})
     # write dictionery to file
@@ -91,7 +99,7 @@ def domainGeneralProps(dict,domain):
 def writeJsonFile(dict,name):
     # there are hebrew strings
     goodName = fixName(name)
-    print goodName
+    #print goodName
     with codecs.open(jsonDir + "\\" + goodName + ".json", 'w',encoding="utf-8") as outfile:
         json.dump(dict, outfile, ensure_ascii=False)
     return
