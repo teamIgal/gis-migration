@@ -5,20 +5,28 @@
 #               json File name
 #
 # Author:      mody
+# updates:  Mody 6/2020 - add field alias, length only for string, empty extent
+#           Mody 7/2020 - geometry type can be annotation or dimension
+#                       - arena and name for oracle/sql server
+#                       - do not put subtype if it does not exists
 #
 # Created:     08/03/2020
 #-------------------------------------------------------------------------------
 
 import arcpy
-import traceback, sys, json , codecs
+import traceback, sys, json , codecs, os
 
 db = arcpy.GetParameterAsText(0) # workspace
 jsonDir = arcpy.GetParameterAsText(1)
 
 # for debug only
-if(db == ""): db = r"D:\Projects\x2470\domainTest.gdb"
+#if(db == ""): db = r"D:\Projects\x2470\domainTest.gdb"
+if(db == ""): db = r"D:\Projects\x2470\local@data2.sde"
+#if(db == ""): db = r"D:\Projects\rastot\rastot.sde"
 #if(db == ""): db = r"D:\Projects\x2470\tools2470\modybu-pc.sde"
 if(jsonDir == ""): jsonDir = r"D:\Projects\x2470\layerFiles"
+
+primeField = "" # promaery field is calculated in getFields and used in main
 
 #===========================
 def main():
@@ -60,7 +68,16 @@ def doLayer(n):
         layerDict = {}
 
         desc = arcpy.Describe(db + "\\" + n)
-        layerDict["name"] = desc.name
+        # name can have no point (fgdb), one point (oracle), two points (sql server)
+        a1 = desc.name.find('.')
+        a2 = desc.name.rfind('.')
+        if(a1 == -1):
+            layerDict["name"] = desc.name
+        elif (a1 == a2):
+            layerDict["name"] = desc.name[a1 + 1:] # oracle
+        else:
+            layerDict["name"] = desc.name[a2 + 1:] # sql server
+
         layerDict["alias"] = desc.aliasName
         layerDict["arena"] = getArena(desc.path)
         sr = desc.spatialReference
@@ -68,15 +85,21 @@ def doLayer(n):
         layerDict["hasZ"] = desc.hasZ
         layerDict["hasM"] = desc.hasM
         layerDict["featureType"] = desc.featureType
-        layerDict["geometryType"] = desc.featureType
+        if(desc.featureType == "Dimension" or desc.featureType == "Annotation"):
+            layerDict["geometryType"] = desc.featureType
+        else:
+            layerDict["geometryType"] = desc.shapeType
         layerDict["featureExtent"] = getExtent(desc,desc.hasZ,desc.hasM)
         layerDict["tolerance"] = getTolerance(sr,desc.hasZ,desc.hasM)
         layerDict["resolution"] = getResolution(sr,desc.hasZ,desc.hasM)
         layerDict["fields"] = getFields(desc.fields,n)
+        layerDict["primaryField"] = primeField
         layerDict["indecies"] = getIndecies(desc)
         layerDict["relations"] = getRel(desc)
         subList = arcpy.da.ListSubtypes(db + "\\" + n)
-        layerDict["subtypes"] = getSubType(subList,desc.fields)
+        #p1("[%s]" % (subList[0]['SubtypeField']),"msg")
+        if(subList[0]['SubtypeField'] != ""): # if we have subtype
+            layerDict["subtypes"] = getSubType(subList,desc.fields)
         # wrire results
         writeJsonFile(layerDict,desc.name)
 
@@ -90,6 +113,8 @@ def doLayer(n):
         tbinfo = traceback.format_tb(tb)[0]
         pymsg = "PYTHON ERRORS:\nTraceback info:\n" + tbinfo + "\nError Info:\n" + str(sys.exc_info()[1])
         msgs = "ArcPy ERRORS:\n" + arcpy.GetMessages(2) + "\n"
+        p1(pymsg,"err")
+        p1(msgs,"err")
 
 #===========================
 # arena is "local" for local databases, database for SqlServer, alias connection for Oracle
@@ -99,8 +124,9 @@ def getArena(path):
     if(d.connectionProperties.instance.find("sde:sqlserver") > -1):
         return d.connectionProperties.database # for sql server - database name
     if(d.connectionProperties.instance.find("sde:oracle") > -1):
-        parts = d.connectionProperties.instance.split(':')
-        return parts[2] # for oracle alias connection name
+        #parts = d.connectionProperties.instance.split(':')
+        name = os.path.basename(path)
+        return name[0:name.index('.')] # parts[2] # for oracle scema name
 
     return d.connectionProperties.instance
 
@@ -108,10 +134,11 @@ def getArena(path):
 # return extent without z or M return a Dict
 def getExtent(desc,isZ,isM):
     valDict = {}
-    valDict["minX"] = desc.extent.XMin
-    valDict["maxX"] = desc.extent.XMax
-    valDict["minY"] = desc.extent.YMin
-    valDict["maxY"] = desc.extent.YMax
+    # must do str(xmin) so it get quotes in case of NaN
+    valDict["minX"] = str(desc.extent.XMin)
+    valDict["maxX"] = str(desc.extent.XMax)
+    valDict["minY"] = str(desc.extent.YMin)
+    valDict["maxY"] = str(desc.extent.YMax)
     if(isZ == True):
         valDict["minZ"] = desc.extent.XMin
         valDict["maxZ"] = desc.extent.XMax
@@ -141,18 +168,25 @@ def getResolution(sr,isZ,isM):
 #===========================
 # return fields as a Dict
 def getFields(allFields,layer):
+    global primeField
     fList = []
     for f in allFields:
         valDict = {}
-        valDict["name"] = f.name
-        valDict["fieldType"] = f.type
+        valDict["name"]            = f.name
+        valDict["alias"]           = f.aliasName
+        valDict["fieldType"]       = f.type
         valDict["allowNullValues"] = f.isNullable
         #if((fld.defaultValue is None) == False):
-        valDict["defaultValue"] = f.defaultValue
-        valDict["domain"] = f.domain
-        valDict["length"] = f.length
-        if(f.type != "Geometry" and f.type != "OID"):
-            valDict["populationCount"] = getPopCount(f,layer)
+        valDict["defaultValue"]    = f.defaultValue
+        valDict["domain"]          = f.domain
+        # take care of some field types
+        if(f.type == "String"):
+            valDict["length"]          = f.length
+        #if(f.type != "Geometry" and f.type != "OID"):
+        if(f.editable == True and f.type != "Geometry"):
+            valDict["populationCount"] = getPopCountSql(f,layer)
+        if(f.type == "OID"):
+            primeField = f.name
         fList.append(valDict)
 
     return fList
@@ -238,6 +272,36 @@ def getPopCount(fld,fc):
                 if(row[0] == fld.defaultValue): continue # default value
             count = count + 1
     return count
+
+    #===========================
+# count how many records with not null and non default value using SQL
+def getPopCountSql(fld,fc):
+    try:
+        if((fld.defaultValue is None) == False):
+            if(fld.type == "String"): # if string must have quotes
+                sql = "select count(*) from %s where %s <> '%s' and  %s is not null" % (fc,fld.name,fld.defaultValue,fld.name)
+            else:
+                sql = "select count(*) from %s where %s <> %s and  %s is not null" % (fc,fld.name,fld.defaultValue,fld.name)
+        else: # No default
+            sql = "select count(*) from %s where %s is not null" % (fc,fld.name)
+
+        #p1(sql,"mess")
+        # connect db
+        db_conn = arcpy.ArcSDESQLExecute(db)
+        # execute command
+        res = db_conn.execute(sql)
+        return res
+    except arcpy.ExecuteError:
+        msgs = arcpy.GetMessages(2)
+        p1(msgs,"err")
+
+    except:
+        tb = sys.exc_info()[2]
+        tbinfo = traceback.format_tb(tb)[0]
+        pymsg = "PYTHON ERRORS:\nTraceback info:\n" + tbinfo + "\nError Info:\n" + str(sys.exc_info()[1])
+        msgs = "ArcPy ERRORS:\n" + arcpy.GetMessages(2) + "\n"
+        p1(pymsg,"err")
+        p1(msgs,"err")
 
 #===========================
 # return subtype info as dict. sList is dictionery of subtype info
